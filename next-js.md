@@ -1,11 +1,15 @@
 ## Some common and annoying things in next.js & there quick solutions
 
-### 1. Changing fonts
+<br>
+
+## 1. Changing fonts
 
 Changing fonts in next.js is a little it different here's how it works: <br>
 **Firstly if you have custom fonts then may god help you,** but if you wanna choose something from
-google fonts the it's simple enough open the layout.tsx or .jsx file by default it's something like
-this:
+google fonts then it's simple enough.
+
+**open the layout.tsx or .jsx file in the app/ folder (you'r using app router right?) by default**
+**it's something like this:**
 
 ```js
 import type { Metadata } from "next";
@@ -44,7 +48,7 @@ export default function RootLayout({
 }
 ```
 
-**Here Above thre are two fonts being used geistSans, geistMono just change it to**
+**Here Above there are two fonts being used geistSans, geistMono just change it to**
 **whatever you wanna use like so:**
 
 ```js
@@ -78,7 +82,8 @@ export default function RootLayout({
 **i wanna use Montserrat so i just import Montserrat from next/font/google and make a variable of**
 **it subsets just write latin and the variable so you can change the font weight with css**
 
-`NOTE: some fonts do not have a variable format there you gotta select a font weight like for e.g. roboto`
+`NOTE: some fonts are not variable, if that's the case for you(for eg. Roboto), then you gotta
+select a font weight`
 
 ```js
 const roboto = Roboto({
