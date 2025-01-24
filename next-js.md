@@ -103,3 +103,27 @@ export default function RootLayout({
   );
 }
 ```
+
+<br>
+
+## 2. Merging routes (app router)
+
+**In nextjs we can merge routes using (route_name) folder, the folder structure would look like:**
+
+```
+app/
+└─ (auth)
+    ├── signup/
+    |   └── page.tsx
+    ├── signin/
+    |   └── page.tsx
+    |
+    └── layout.tsx
+```
+
+**NOTE: All the folders whose names are written in brackets like this `(folder)` are ignored by the
+app router (but not by nextjs) i.e. there will be no `api/auth` route instead there will be**
+**`api/signup` and `api/signin` routes**
+
+Since the (auth) folder will be ignored by the app router but not by nextjs as a whole we can put
+the layout.tsx file there to share a same layout for all the routes under the `(auth)` folder
