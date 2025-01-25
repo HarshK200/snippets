@@ -127,3 +127,64 @@ app router (but not by nextjs) i.e. there will be no `api/auth` route instead th
 
 Since the (auth) folder will be ignored by the app router but not by nextjs as a whole we can put
 the layout.tsx file there to share a same layout for all the routes under the `(auth)` folder
+
+<br>
+
+## 3. SSR (server side rendering)
+
+**SSR in brief** means render the webpage i.e. the html on the server and send the html directly instead
+of doing it the react way i.e. send an empty html page with just a div with id="main" which is then
+targated by react and then it renders the whole page. **(causes waterfalling problem <= a pretty name
+for multiple requests problem)**
+
+### React way code:
+
+```javascript
+export default function Home() {
+    const [todos, setTodos] = useState<null | []TodoInterface>();
+    const [loading, setLoading] = useState<boolean>(true);
+
+    async function fetchTodos() {
+        const res = await axios.get("gettodos.com/bulk");
+        const result = res.data;
+
+        return result;
+    }
+
+    // This runs on the client hence a (CSR)client side rendered component
+    useEffect(() => {
+        fetchTodos()
+        .then((result) => {
+            setTodos(result);
+            setLoading(false);
+        })
+    }, []);
+
+    if(loading) {
+        return <LoadingUI />
+    }
+
+    return <div>
+        {todos!.map(todo => <Todo title={todo.title} status={todo.status}/>)}
+    </div>
+}
+```
+
+### In Next-js:
+
+**Just make the component async and the request will stay pending until all the async stuff is**
+**finished and then only when the html is loaded its sent to client which can we crawled by bots,**
+**making it better for SEO(search engine optimization) this is SSR**
+
+```javascript
+export default async function Home() {
+    const res = await axios.get("gettodos.com/bulk");
+    const todos = res.data;
+
+    return <div>
+        {todos!.map(todo => <Todo title={todo.title} status={todo.status}/>)}
+    </div>
+}
+```
+
+#### `NOTE: if you wanna add loading ui just make a loading.tsx file right next to page.tsx`
