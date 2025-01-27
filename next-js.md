@@ -137,7 +137,7 @@ of doing it the react way i.e. send an empty html page with just a div with id="
 targated by react and then it renders the whole page. **(causes waterfalling problem <= a pretty name
 for multiple requests problem)**
 
-### React way code:
+#### React way code:
 
 ```javascript
 export default function Home() {
@@ -170,7 +170,7 @@ export default function Home() {
 }
 ```
 
-### In Next-js:
+#### In Next-js:
 
 **Just make the component async and the request will stay pending until all the async stuff is**
 **finished and then only when the html is loaded its sent to client which can we crawled by bots,**
@@ -188,3 +188,38 @@ export default async function Home() {
 ```
 
 #### `NOTE: if you wanna add loading ui just make a loading.tsx file right next to page.tsx`
+
+<br>
+
+## 4. '@' Import alias In Next-js
+Go to tsconfig.json file in the root of your project directory, it looks like this:
+```js
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+        <------------------ *Import alias here*
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
