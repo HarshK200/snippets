@@ -280,3 +280,29 @@ app/
 ├── layout.tsx
 └── page.tsx
 ```
+
+<br>
+
+## 7. Custom Notfound page in nextjs
+
+**All right that's simple enough just make a `not-found.tsx` file in the root of your page and nextjs
+app router should pick it up automatically**
+
+```typescript
+// not-found.tsx
+
+export default function NotFound() {
+  return <div>
+    Not found
+  </div>
+}
+```
+
+**The folder structure should be like:**
+
+```
+app/
+├── layout.tsx
+├── not-found.tsx  <------ this file
+└── page.tsx
+```
