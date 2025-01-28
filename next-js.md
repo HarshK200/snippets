@@ -234,7 +234,9 @@ Go to tsconfig.json file in the root of your project directory, it looks like th
 
 ```typescript
 // /post/[slug]/page.tsx
-export default async function Page({ params }: { params: { postId: String } }) {
+type tParams = Promise<{ postId: string }>
+
+export default async function Page({ params }: { params: tParams }) {
   // NOTE: params are async in Nextjs 15 for some reason so just do this to avoid the warning
   const { postId } = await params;
 
@@ -268,9 +270,12 @@ And the slug can be accessed by similar:
 
 ```typescript
 // /docs/[...slug]/page.tsx
-export default function Slug({ params }: { params: { slug: String } }) {
+type tParams = Promise<{ slug: string }>;
+
+export default async function ({ params }: { params: tParams }) {
   const { slug } = await params;
-  return <div>Hi there slug: {slug}</div>;
+
+  return <div>Hi i'm server rendered slug: {slug}</div>;
 }
 ```
 
