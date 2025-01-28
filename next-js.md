@@ -281,6 +281,10 @@ app/
 └── page.tsx
 ```
 
+**NOTE: You can also use double brackets like `[[...slug]]` to make the catch-all optional (so it can
+match /docs as well as /docs/anything/here).**
+
+
 <br>
 
 ## 7. Custom Notfound page in nextjs
