@@ -235,9 +235,12 @@ Go to tsconfig.json file in the root of your project directory, it looks like th
 ```typescript
 // /post/[slug]/page.tsx
 export default async function Page({ params }: { params: { postId: String } }) {
+  // NOTE: params are async in Nextjs 15 for some reason so just do this to avoid the warning
+  const { postId } = await params;
+
   return (
     <div className="flex justify-center items-center">
-      <h1 className="text-2xl">PostId: {params.postId}</h1>
+      <h1 className="text-2xl">PostId: {postId}</h1>
     </div>
   );
 }
@@ -266,7 +269,8 @@ And the slug can be accessed by similar:
 ```typescript
 // /docs/[...slug]/page.tsx
 export default function Slug({ params }: { params: { slug: String } }) {
-  return <div>Hi there slug: {params.slug}</div>;
+  const { slug } = await params;
+  return <div>Hi there slug: {slug}</div>;
 }
 ```
 
@@ -283,7 +287,6 @@ app/
 
 **NOTE: You can also use double brackets like `[[...slug]]` to make the catch-all optional (so it can
 match /docs as well as /docs/anything/here).**
-
 
 <br>
 
@@ -310,3 +313,7 @@ app/
 ├── not-found.tsx  <------ this file
 └── page.tsx
 ```
+
+<br>
+
+## 8. Middlewares in Nextjs (Very Important!!!)
