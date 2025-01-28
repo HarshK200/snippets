@@ -192,7 +192,9 @@ export default async function Home() {
 <br>
 
 ## 4. '@' Import alias In Next-js
+
 Go to tsconfig.json file in the root of your project directory, it looks like this:
+
 ```js
 {
   "compilerOptions": {
@@ -222,4 +224,59 @@ Go to tsconfig.json file in the root of your project directory, it looks like th
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
+```
+
+<br>
+
+## 5. Dynamic routes /post/[slug]
+
+**Here the slug is the parameter that can be accessed like so:**
+
+```typescript
+// /post/[slug]/page.tsx
+export default async function Page({ params }: { params: { postId: String } }) {
+  return (
+    <div className="flex justify-center items-center">
+      <h1 className="text-2xl">PostId: {params.postId}</h1>
+    </div>
+  );
+}
+```
+
+**The folder structure should be like:**
+
+```
+app/
+├── posts/
+|   └── [postId]/
+|         └── page.tsx
+├── layout.tsx
+└── page.tsx
+```
+
+<br>
+
+## 6. Catch-All Segment
+
+**A folder or file in the form `/docs/[...slug]` will match all segments in that position (e.g.,
+`/docs/anything/here` will be matched by `[...slug]`).**
+
+And the slug can be accessed by similar:
+
+```typescript
+// /docs/[...slug]/page.tsx
+export default function Slug({ params }: { params: { slug: String } }) {
+  return <div>Hi there slug: {params.slug}</div>;
+}
+```
+
+**The folder structure should be like:**
+
+```
+app/
+├── docs/
+|   └── [...slug]/
+|         └── page.tsx
+├── layout.tsx
+└── page.tsx
 ```
