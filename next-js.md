@@ -293,6 +293,10 @@ app/
 **NOTE: You can also use double brackets like `[[...slug]]` to make the catch-all optional (so it can
 match /docs as well as /docs/anything/here).**
 
+**Also if you are wondering why are we doing all this type tParam businness here is because npm run
+build doesn't work if we don't, why you may ask read this (i'm too lazy to explain):**
+`https://nextjs.org/docs/messages/sync-dynamic-apis`
+
 <br>
 
 ## 7. Custom Notfound page in nextjs
@@ -321,4 +325,6 @@ app/
 
 <br>
 
-## 8. Middlewares in Nextjs (Very Important!!!)
+TODO:
+
+## 8. Middlewares in Nextjs (Very Importantc!!!)
