@@ -148,9 +148,12 @@ Example for seed.ts file: (also look at <a>https://github.com/code100x/cms/blob/
 </a> thanks surgum again :>)
 
 ```typescript
-import { PrismaClient } from "@prisma/client";
+// NOTE: either do this
+// const db = new PrismaClient();
+// import { PrismaClient } from "@prisma/client";
+//              OR
 
-const db = new PrismaClient();
+import db from "../src/db"; // NOTE: you cannot use the tsconfig type alias here i.e. @/db
 
 async function seedUsers() {
   const dummyUsers = [
