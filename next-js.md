@@ -395,18 +395,17 @@ i.e. `/src/middleware.ts` if using the src directory**
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
+  console.log("middleware runs on api/auth/everything route");
   return NextResponse.redirect(new URL("/home", request.url));
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/about/:path*",
+  matcher: "/api/auth/:nextauth",
 };
 ```
 
 **Alright now in this middleware.ts file you need to make a function with the `EXACT name middleware` and
-this function can we async if using async await.By default this function will run for all the routes
+this function can we async if using async await. By default this function will run for all the routes
 but it can be limited to run only on specific routes if you export a variable name config.**
 This is explained well in the matching paths section of the <a href="https://nextjs.org/docs/app/building-your-application/routing/middleware#matching-paths">docs</a>
