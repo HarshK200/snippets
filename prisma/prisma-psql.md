@@ -159,17 +159,10 @@ async function seedUsers() {
   const dummyUsers = [
     {
       id: "1",
-      email: "testuser@example.com",
+      email: "testuser1@example.com",
       password: "some$ecure_password1",
       firstName: "Test",
       lastName: "User",
-    },
-    {
-      id: "2",
-      email: "testuser2@example.com",
-      password: "some$ecure_password2",
-      firstName: "Testy",
-      lastName: "User2",
     },
   ];
 
