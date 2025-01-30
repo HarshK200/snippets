@@ -106,7 +106,7 @@ export default function RootLayout({
 
 <br>
 
-## 2. Merging routes (app router)
+## 2. Merging routes/ route groups (app router)
 
 **In nextjs we can merge routes using (route_name) folder, the folder structure would look like:**
 
@@ -325,6 +325,88 @@ app/
 
 <br>
 
-TODO:
+## 8. API routes in nextjs i.e. Server routes (/api/something)
 
-## 8. Middlewares in Nextjs (Very Importantc!!!)
+**So doing server routes/api routes in Nextjs is simple enough(using app directory) we just make a
+simple `app/api/` folder in the app directory and there you can add any folder with a routes.ts file
+init and export functions (or handlers) named GET, POST, PUT, PATCH, DELETE, etc... depending on the
+methods your route supports**
+
+Official docs: <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers">routing/route-handlers</a>
+
+A simple example would be:
+
+```typescript
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  return NextResponse.json({
+    msg: "Hi you just hit the /api/user route",
+  });
+}
+```
+
+you can also do dynamic routes like a catch all [...slug] exactly similar to the 6. point above, here's
+the official website <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers#dynamic-route-segments">link</a>
+
+And a quick example from nextjs docs:
+
+```typescript
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ slug: string }> },
+) {
+  const slug = (await params).slug;
+}
+```
+
+`**NOTE(taken from nextjs docs): In addition to supporting the native Request and Response APIs,
+Next.js extends them with NextRequest and NextResponse to provide convenient helpers for advanced
+use cases.**`
+
+Here's the docs <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers#extended-nextrequest-and-nextresponse-apis">link</a>
+
+<br>
+
+## 9. Redirecting in Next.js
+
+official docs: <a href="https://nextjs.org/docs/app/building-your-application/routing/redirecting">link</a>
+
+There are multiple ways to redirect in Next.js shown in the above docs, i'll just show two ways one
+for client side and one for server side.
+
+**For the client side:** it's simple enough just use the useRouter() hook from "next/navigation"
+
+**For server side:** use the redirect("path/here") function from "next/navigation".
+
+There are a few more advanced ways just read the docs for those.
+
+<br>
+
+## 10. Middlewares in Next.js
+
+official docs: <a href="https://nextjs.org/docs/app/building-your-application/routing/middleware">link</a>
+
+**Start by making a single middleware.ts file in the root of your project right next to the app folder
+i.e. `/src/middleware.ts` if using the src directory**
+
+```typescript
+//  /src/middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+// This function can be marked `async` if using `await` inside
+export function middleware(request: NextRequest) {
+  return NextResponse.redirect(new URL("/home", request.url));
+}
+
+// See "Matching Paths" below to learn more
+export const config = {
+  matcher: "/about/:path*",
+};
+```
+
+**Alright now in this middleware.ts file you need to make a function with the `EXACT name middleware` and
+this function can we async if using async await.By default this function will run for all the routes
+but it can be limited to run only on specific routes if you export a variable name config.**
+This is explained well in the matching paths section of the <a href="https://nextjs.org/docs/app/building-your-application/routing/middleware#matching-paths">docs</a>
