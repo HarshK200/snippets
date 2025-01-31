@@ -96,7 +96,7 @@ After successful signin next-auth would have put some cookies including the jwt 
 **Alright so we've done a successful signin now we wanna access the data in the jwt, there are mostly
 three times you'll need this data:**
 
-#### 1. On the server component which can easily be done with:
+#### One. On the server component which can easily be done with:
 
 ```typescript
 export default async function ProfilePage() {
@@ -106,7 +106,7 @@ export default async function ProfilePage() {
 }
 ```
 
-#### 2. On the server api route which can also be done exactly the same as above no difference:
+#### Two. On the server api route which can also be done exactly the same as above no difference:
 
 ```typescript
 export async function GET() {
@@ -118,7 +118,7 @@ export async function GET() {
 }
 ```
 
-#### 3. On the client side (now this requires a bit of work)
+#### Thrid. On the client side (now this requires a bit of work)
 
 **Now on the client side next-auth expects you to wrap your application in a session provider and
 then you can use useSession() hook on the client**
@@ -177,4 +177,121 @@ export default function ClientSession() {
     </div>
   );
 }
+```
+
+<br>
+
+## 2. Adding Custom key-value pair in the JWT that is created by next-auth
+
+<a href="https://next-auth.js.org/configuration/callbacks">Official Callbacks docs</a>
+
+**Alright so in order to do this you need to overwrite one of the callbacks in the /src/app/api/[...nextauth]/routes.ts
+where you wrote the credentials provider**
+
+This is explained well in this <a href="https://youtu.be/2kgqPvs0j_I?si=gQPfRnY7Z1re2Nyo&t=1542">video(timestamped): </a>
+
+In the docs there are four callbacks mentioned:
+
+- signIn
+- redirect
+- session
+- jwt
+
+**we are interested in the last two i.e. session and jwt**
+
+**The flow of authentication is like so:**
+
+```
+async function authorize  <--------- defined in the provider object
+      |
+      |
+      |
+    jwt() callback        <----- this passes the token to session() callback
+      |
+      |
+      |
+    session() callback    <----- this uses the token that was passed from jwt() callback
+```
+
+we wanna add custom key to our jwt token, Alright here's how this is works in order to pass some
+custom key through we have to return it from the `async function authorize()` then pass it through
+the `jwt() callback` and then use it in the `session() callback`
+
+So what we do is let's say we want `firstname`, `lastname` and `id` as the custom fields we can
+return these fields from the user our `authorize function` and then in the `jwt() callback` as well
+we can spread the token fields and add the extra fields we want from the user object.
+`NOTE: the user object is only awailable when user is logining-in, for all other cases the its undefined`
+also after this we can in the `session() callback` we can access those properties from the token,
+and return them as a user field.
+
+**Example:**
+
+```typescript
+export const authOptions: AuthOptions = {
+  providers: [
+    CredentialsProvider({
+      name: "Signin",
+      credentials: {
+        firstname: {
+          label: "First Name",
+          type: "text",
+          placeholder: "firstname",
+        },
+        lastname: {
+          label: "Last Name",
+          type: "text",
+          placeholder: "lastname",
+        },
+        email: {
+          label: "email",
+          type: "email",
+          placeholder: "jhondoe@example.com",
+        },
+        password: {
+          label: "password",
+          type: "password",
+          placeholder: "enter your password",
+        },
+      },
+
+      async authorize(credentials, req) {
+        // ...auth logic and check against db here
+
+        // this will be what goes into the jwt token by next-auth
+        return {
+          id: user.id,
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        };
+      },
+    }),
+  ],
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as User;
+
+        return {
+          ...token,
+          id: u.id,
+          firstname: u.firstname,
+          lastname: u.lastname,
+        };
+      }
+      return token;
+    },
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          firstname: token.firstname,
+          lastname: token.lastname,
+        },
+      };
+    },
+  },
+};
 ```
