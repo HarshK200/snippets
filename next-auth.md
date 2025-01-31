@@ -317,3 +317,23 @@ declare module "next-auth" {
   }
 }
 ```
+
+<br>
+
+## 3. Adding next-auth middleware for protected routes
+
+**Just like normal make middleware.ts file in the src/ folder or in the root of your directory(if
+not using src folder) and export the default import from "next-auth/middleware from this file like
+so:"**
+
+```typescript
+export { default } from "next-auth/middleware";
+
+// list the routes here that you want the auth-middleware to protect
+export const config = {
+  matcher: [
+    "/dashboard",
+    "/user/:path*", // <--------- this means /user/anything kinda like catch-all
+  ],
+};
+```
