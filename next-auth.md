@@ -295,3 +295,25 @@ export const authOptions: AuthOptions = {
   },
 };
 ```
+
+**`IMPORTANT NOTE: You might notice when you try to use this by using getServerSession() function
+you get type error, this is because the getServerSession returns the Session type which extends
+DefaultSession type we need to override this shit. How!? you may ask here's how:`**
+
+**Make a `@types/` folder in the root of your project right next to the src folder and then make a
+`next-auth.d.ts` file (EXACT NAME) now add the following code in it:(your user type goes in the user
+key)**
+
+```typescript
+import { DefaultSession } from "next-auth";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      firstname: string;
+      lastname: string;
+    } & DefaultSession["user"];
+  }
+}
+```
