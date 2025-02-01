@@ -1,4 +1,6 @@
-## Quick notes on setting up prisma with postgresql in nextjs (using app dir)
+# Prisma problems that i commonly tackle with solutions
+
+## 1. Quick notes on setting up prisma with postgresql in nextjs (using app dir)
 
 **Alright first startup a quick postgres server locally to connect to and development (docker command
 in the snippets/docker-cmds.md file)**
@@ -211,3 +213,65 @@ npx prisma db seed
 ```
 
 Alright everything should be set now connect to your db and you are check if the changes reflected :>
+
+<br>
+
+## 2. Basic prisma.schema (with one user model)
+
+Note: (the prisma.schema file and the primsa/ directory both are generated with the `primsa init`
+command)
+
+```typescript
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// MODELS
+model User {
+    id        String @id @default(uuid())
+    email     String @unique
+    password  String
+    firstname String
+    lastname  String
+}
+```
+
+<br>
+
+## 3. Basic CRUD (these are Nextjs examples but prisma codes same for react)
+
+#### Create:
+
+```typescript
+import { PrismaClient } from "@prisma/client";
+const db = new PrismaClient();
+
+export async function POST(req: NextRequest) {
+  const { firstname, lastname, email, password } = await req.json();
+  const hashedPassword = await hash(password, 10);
+
+  const user = await db.user.create({
+    data: {
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: hashedPassword,
+    },
+  });
+
+  return NextResponse.json({
+    message: "dragon dezznuts /api/register",
+  });
+}
+```

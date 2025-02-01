@@ -368,14 +368,16 @@ Here's the docs <a href="https://nextjs.org/docs/app/building-your-application/r
 
 <br>
 
-## 9. Redirecting in Next.js
+## 9. Redirecting or Linking or Navigation in Next.js
 
-official docs: <a href="https://nextjs.org/docs/app/building-your-application/routing/redirecting">link</a>
+official docs: <a href="https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating">link</a>
 
-There are multiple ways to redirect in Next.js shown in the above docs, i'll just show two ways one
+There are four ways to redirect in Next.js shown in the above docs, i'll just show three ways, two
 for client side and one for server side.
 
-**For the client side:** it's simple enough just use the useRouter() hook from "next/navigation"
+**For the client side:** it's simple enough just use the useRouter() hook from "next/navigation" when
+you are redirect programatically or use the <Link> component from "next/link" when you wanna use an
+<a> tag.
 
 **For server side:** use the redirect("path/here") function from "next/navigation".
 
