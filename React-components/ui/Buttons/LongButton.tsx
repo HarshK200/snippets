@@ -1,4 +1,4 @@
-interface tButton extends React.HTMLProps<HTMLButtonElement> {
+interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 

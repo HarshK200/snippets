@@ -261,6 +261,8 @@ export async function POST(req: NextRequest) {
   const { firstname, lastname, email, password } = await req.json();
   const hashedPassword = await hash(password, 10);
 
+  // Make sure you do your validation using zod or something else!!!
+
   const user = await db.user.create({
     data: {
       firstname: firstname,

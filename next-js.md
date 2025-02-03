@@ -411,3 +411,30 @@ export const config = {
 this function can we async if using async await. By default this function will run for all the routes
 but it can be limited to run only on specific routes if you export a variable name config.**
 This is explained well in the matching paths section of the <a href="https://nextjs.org/docs/app/building-your-application/routing/middleware#matching-paths">docs</a>
+
+<br>
+
+## 11. Accessing SearchQuery parameters in Nextjs
+
+Official docs <a href="https://nextjs.org/docs/app/api-reference/functions/use-search-params">link</a>
+
+**In order to access the search query parameters of the url for example something like:**
+`http://localhost:3000/login?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2Fuser%2Fprofile` **here if
+you wanna access the callbackUrl parameter you can use the useSearchParams() hook**
+
+code example:
+
+```typescript
+"use client"
+
+import { useSearchParams } from "next/navigation"
+
+export default function SearchBar() {
+  const searchParams = useSearchParams()
+  const search = searchParams.get("search");
+
+  // URL -> `/dashboard?search=my-project`
+  // `search` -> 'my-project'
+  return <>Search: {search}</>
+}
+```
