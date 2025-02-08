@@ -214,6 +214,8 @@ npx prisma db seed
 
 Alright everything should be set now connect to your db and you are check if the changes reflected :>
 
+#### Make sure to chek <a href="https://www.prisma.io/docs/orm/more/help-and-troubleshooting/nextjs-help#best-practices-for-using-prisma-client-in-development">these docs</a> for best practices
+
 <br>
 
 ## 2. Basic prisma.schema (with one user model)
@@ -275,5 +277,65 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     message: "dragon dezznuts /api/register",
   });
+}
+```
+
+<br>
+
+## 4. Relationships and joins
+
+**How to make relationships between tables a.k.a. joins:**
+
+### One to many relationships
+
+welp let's say we have two tables a **_Seller_** and a **_Product_** like so:
+
+```typescript
+model Seller {
+    id           String    @id @default(uuid())
+    email        String    @unique
+    password     String
+    firstname    String
+    lastname     String
+    phone_no     Int
+    shop_address String
+    Product      Product[]
+}
+
+model Product {
+    id          String @id @default(uuid())
+    name        String
+    description String
+    price       Int
+    inventory   Int
+    // <--------- we want a seller relation here i.e. put the seller_id for the prodcut here
+}
+```
+
+**We can define a relation with the @relation() func and then specify which field in the current
+table will relate to the other table like so:**
+
+`NOTE: Make sure to give the relation a name/label so we don't get any ambiguous errors`
+
+```typescript
+model Seller {
+    id           String    @id @default(uuid())
+    email        String    @unique
+    password     String
+    firstname    String
+    lastname     String
+    phone_no     Int
+    shop_address String
+    products     Product[] @relation("SellingProducts")
+}
+
+model Product {
+    id          String @id @default(uuid())
+    name        String
+    description String
+    price       Int
+    inventory   Int
+    seller      Seller @relation("SellingProducts", fields: [sellerId], references: [id])
+    sellerId    String
 }
 ```
