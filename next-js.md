@@ -82,14 +82,28 @@ export default function RootLayout({
 **i wanna use Montserrat so i just import Montserrat from next/font/google and make a variable of**
 **it subsets just write latin and the variable so you can change the font weight with css**
 
-`NOTE: some fonts are not variable, if that's the case for you(for eg. Roboto), then you gotta
-select a font weight`
+`NOTE: some fonts are not variable, if that's the case for you(for eg. Roboto), then you gotta do a
+little bit of work to get variable fonts(when using tailwindcss)`
+
+STEP 1: Set the weight to an array of all the supported weights, don't forget to set subset and
+variable as well
 
 ```js
+import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
+import "./globals.css";
+import { Providers } from "./providers";
+
 const roboto = Roboto({
-  weight: ["400"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  variable: "--font-sans",
   subsets: ["latin"],
 });
+
+export const metadata: Metadata = {
+  title: "jae-Commerce",
+  description: "just another e-commerce app",
+};
 
 export default function RootLayout({
   children,
@@ -97,11 +111,43 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${roboto.className} antialiased`}>
-      <body>{children}</body>
+    <html lang="en" className={`${roboto.variable} antialiased`}>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
+```
+
+STEP 2: Add this to the tailwindcss config extend part
+
+```js
+import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme"; **<---------- also import this**
+
+export default {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        text: "#050316",
+        background: "#fbfbfe",
+        primary: "#27ce27",
+        secondary: "#e5ffdb",
+        accent: "#84ff3d",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans], **<-------- add this here**
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config;
 ```
 
 <br>
