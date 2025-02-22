@@ -486,3 +486,6 @@ export default function SearchBar() {
   </>
 }
 ```
+
+**NOTE: Remember to wrap this component in <Suspense> since if you don't you'll get an error during
+build. Docs: <a>https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout</a>**
