@@ -462,6 +462,8 @@ This is explained well in the matching paths section of the <a href="https://nex
 
 ## 11. Accessing SearchQuery parameters in Nextjs
 
+### Frontend:
+
 Official docs <a href="https://nextjs.org/docs/app/api-reference/functions/use-search-params">link</a>
 
 **In order to access the search query parameters of the url for example something like:**
@@ -489,3 +491,17 @@ export default function SearchBar() {
 
 **NOTE: Remember to wrap this component in <Suspense> since if you don't you'll get an error during
 build. Docs: <a>https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout</a>**
+
+### Backend:
+
+Officail docs <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers#url-query-parameters">link</a>
+**Basically just copy exactly what's in the docs page example, like so:**
+
+```typescript
+import { type NextRequest } from 'next/server'
+
+export function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams
+  const query = searchParams.get('query')
+  // query is "hello" for /api/search?query=hello
+```
