@@ -276,6 +276,22 @@ Go to tsconfig.json file in the root of your project directory, it looks like th
 
 ## 5. Dynamic routes /post/[slug]
 
+### Client component
+
+```typescript
+// for example route could be like /chatroom/[roomid]
+
+export default function Room() {
+  const { roomid: roomId } = useParams();
+
+  return <div>
+    <h1>Roomid: {roomId}</h1>
+  </div>
+}
+```
+
+### Server component
+
 **Here the slug is the parameter that can be accessed like so:**
 
 ```typescript
@@ -495,6 +511,7 @@ build. Docs: <a>https://nextjs.org/docs/messages/missing-suspense-with-csr-bailo
 ### Backend:
 
 Officail docs <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers#url-query-parameters">link</a>
+
 **Basically just copy exactly what's in the docs page example, like so:**
 
 ```typescript
