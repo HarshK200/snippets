@@ -38,7 +38,9 @@ export const Marquee = ({
     >
       <div className={cn("w-fit flex bg-white animate-scroll-left", className)}>
         {children}
+        <div aria-hidden="true" className="flex">
         {children}
+        </div>
       </div>
     </div>
   );
