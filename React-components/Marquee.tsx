@@ -23,23 +23,30 @@ import { cn } from "@/utils/cn";
 
 export const Marquee = ({
   children,
-  className,
+  classNameOuter,
+  classNameInner,
 }: {
   children: React.ReactNode;
-  className?: string;
+  classNameOuter?: string;
+  classNameInner?: string;
 }) => {
   return (
     <div
-      className="w-full overflow-hidden"
+      className={cn("w-full overflow-hidden", classNameOuter)}
       style={{
         WebkitMask: "linear-gradient(90deg, transparent, white)",
         mask: "linear-gradient(90deg, transparent, white 20%, white 80%, transparent)",
       }}
     >
-      <div className={cn("w-fit flex bg-white animate-scroll-left", className)}>
+      <div
+        className={cn(
+          "w-fit flex bg-white animate-scroll-left",
+          classNameInner,
+        )}
+      >
         {children}
         <div aria-hidden="true" className="flex">
-        {children}
+          {children}
         </div>
       </div>
     </div>
