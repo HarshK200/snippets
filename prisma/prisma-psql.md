@@ -1,5 +1,7 @@
 # Prisma problems that i commonly tackle with solutions
 
+## **<a href="https://www.prisma.io/docs/guides/nextjs#25-set-up-prisma-client">Offical setup docs</a>**
+
 ## 1. Quick notes on setting up prisma with postgresql in nextjs (using app dir)
 
 **Alright first startup a quick postgres server locally to connect to and development (docker command
