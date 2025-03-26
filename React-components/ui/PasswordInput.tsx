@@ -1,30 +1,31 @@
-import { Input } from "./ui/Input"; // <------ NOTE: this is the input component from ui/input directory
-import { Eye, EyeOff } from "lucide-react"; // <------- Requires lucide-react installed
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import { cn } from "@/utils/cn";
 
-export default function PasswordInput() {
+export const PasswordInput = ({ className }: { className?: string }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [password, setPassword] = useState("");
 
   return (
-    <div>
-      <label htmlFor="password" className="text-sm text-slate-700">
-        Password
-      </label>
+    <div className={cn("flex flex-col w-full relative", className)}>
+      <Label>Password</Label>
       <div className="flex">
         <Input
+          label="password"
           required
           id="password"
           type={isPasswordVisible ? "text" : "password"}
           className="rounded-r-none"
-          value={formDetails?.password || ""}
+          value={password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setFormDeatils((prev) => {
-              return { ...prev, password: e.target.value };
-            });
+            setPassword(() => e.target.value);
           }}
         />
         <button
           type="button"
-          className="px-2 border border-l-0 rounded-md rounded-l-none"
+          className="px-2 border-[1px] border-l-0 rounded-r-md"
           onClick={() => {
             setIsPasswordVisible((prev) => {
               return !prev;
@@ -36,4 +37,4 @@ export default function PasswordInput() {
       </div>
     </div>
   );
-}
+};
